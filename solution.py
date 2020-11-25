@@ -1,6 +1,7 @@
 class Solution:
+
     def romanToInt(self, s: str) -> int:
-        rule_add = {
+        m = {
             'I': 1,
             'V': 5,
             'X': 10,
@@ -9,22 +10,18 @@ class Solution:
             'D': 500,
             'M': 1000,
         }
-
-        rule_div = {
-            ('I', 'V'): 3,
-            ('I', 'X'): 8,
-            ('X', 'L'): 30,
-            ('X', 'C'): 80,
-            ('C', 'D'): 300,
-            ('C', 'M'): 800,
-        }
-
-        number = 0
-        prev_literal = None
-        for literal in s:
-            if prev_literal and rule_add[prev_literal] < rule_add[literal]:
-                number += rule_div[(prev_literal, literal)]
-            else:
-                number += rule_add[literal]
-            prev_literal = literal
-        return number
+        r = 0
+        i = 0
+        while i < len(s):
+            j = i + 1
+            k = 1
+            while j < len(s) and s[j] == s[i]:
+                k += 1
+                j += 1
+            q = m[s[j - 1]] * k
+            if j < len(s) and m[s[i]] < m[s[j]]:
+                print(s[i], m[s[i]], s[j], m[s[j]])
+                q = -q
+            i = j
+            r += q
+        return r
